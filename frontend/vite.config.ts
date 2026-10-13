@@ -20,6 +20,7 @@ export default defineConfig({
         main: root + "index.html",
         privacy: root + "privacy.html",
         dashboard: root + "dashboard.html",
+        install: root + "install.html",
       },
     },
   },

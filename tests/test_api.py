@@ -22,6 +22,7 @@ def test_health_and_meta_and_schools():
         assert client.get("/api/v1/health").json()["status"] == "ok"
         meta = client.get("/api/v1/meta").json()
         assert "support_email" in meta
+        assert meta["extension_download_url"].endswith("ravennow-extension.zip")
         assert client.get("/api/v1/schools").json()["default"] == "carleton"
 
 
@@ -32,6 +33,7 @@ def test_landing_and_legal_pages_served():
         assert "RavenNow" in home.text
         assert client.get("/privacy").status_code == 200
         assert client.get("/app").status_code == 200
+        assert client.get("/install").status_code == 200
 
 
 def test_auth_is_required():

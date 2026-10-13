@@ -9,6 +9,11 @@ the RavenNow backend.
 2. **Load unpacked** → select this `extension/` folder.
 3. Click the toolbar icon to open the side panel.
 
+There is no store listing yet. From the repo root you can run
+`scripts/install-extension.ps1` (Windows) or `scripts/install-extension.sh`
+(macOS/Linux) to download a release and unpack it for you, then follow the same
+three steps. The site also walks through this at `/install`.
+
 ## Configure
 
 Open the extension **options** (gear icon in the panel, or *Details → Extension

@@ -141,7 +141,7 @@ export default function DashboardPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      {meta ? <SiteHeader meta={meta} installHref="/#install" /> : null}
+      {meta ? <SiteHeader meta={meta} installHref="/install" /> : null}
 
       <main className="container max-w-4xl flex-1 py-10">
         <div className="flex flex-wrap items-center justify-between gap-4">

@@ -81,6 +81,20 @@ class Settings:
     github_url: str = os.getenv(
         "RAVENNOW_GITHUB_URL", "https://github.com/mithustar39/ravennow"
     )
+    # Direct download used by the no-store install flow (see /install).
+    extension_download_url: str = os.getenv(
+        "RAVENNOW_EXTENSION_URL",
+        "https://github.com/mithustar39/ravennow/releases/latest/download/ravennow-extension.zip",
+    )
+    # Installer scripts offered on the install page.
+    extension_installer_ps1_url: str = os.getenv(
+        "RAVENNOW_INSTALLER_PS1_URL",
+        "https://raw.githubusercontent.com/mithustar39/ravennow/main/scripts/install-extension.ps1",
+    )
+    extension_installer_sh_url: str = os.getenv(
+        "RAVENNOW_INSTALLER_SH_URL",
+        "https://raw.githubusercontent.com/mithustar39/ravennow/main/scripts/install-extension.sh",
+    )
 
     @property
     def is_sqlite(self) -> bool:

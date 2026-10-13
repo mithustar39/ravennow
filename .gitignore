@@ -14,6 +14,9 @@ npm-debug.log*
 # Built frontend assets (produced by `npm --prefix frontend run build`)
 backend/static/
 
+# Extension zips built by scripts/build-extension-zip.*
+dist/
+
 # Runtime data (SQLite database, secrets)
 data/
 *.db

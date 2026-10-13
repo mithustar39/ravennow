@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   BellRing,
   Chrome,
+  Download,
   ListChecks,
   RefreshCw,
   ShieldCheck,
@@ -49,7 +50,7 @@ const FEATURES = [
 const STEPS = [
   {
     title: "Add the extension",
-    body: "Install from the Chrome Web Store, or load it from source in a couple of clicks.",
+    body: "Download it and load it into Chrome or Edge. It takes about a minute.",
   },
   {
     title: "Open Brightspace once",
@@ -69,12 +70,20 @@ export default function App() {
   }, []);
 
   const config = meta;
-  const installHref =
-    config?.chrome_store_url || config?.github_url || "#install";
+  const installHref = config?.chrome_store_url || "/install";
+  const installLabel = config?.chrome_store_url
+    ? "Add to Chrome"
+    : "Install RavenNow";
 
   return (
     <div className="flex min-h-screen flex-col">
-      {config ? <SiteHeader meta={config} installHref={installHref} /> : null}
+      {config ? (
+        <SiteHeader
+          meta={config}
+          installHref={installHref}
+          installLabel={installLabel}
+        />
+      ) : null}
 
       <main className="flex-1">
         {/* Hero */}
@@ -93,7 +102,7 @@ export default function App() {
                 <Button asChild size="lg">
                   <a href={installHref}>
                     <Chrome className="h-4 w-4" />
-                    Add to Chrome
+                    {installLabel}
                   </a>
                 </Button>
                 <Button asChild size="lg" variant="outline">
@@ -163,41 +172,41 @@ export default function App() {
                   Recommended
                 </Badge>
                 <CardTitle className="pt-2 text-lg">
-                  Install from the Chrome Web Store
+                  Install in about a minute
                 </CardTitle>
                 <CardDescription>
-                  One click, automatic updates, works in Chrome and Edge.
+                  Works in Chrome and Edge on Windows, macOS and Linux.
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                {config?.chrome_store_url ? (
-                  <Button asChild>
-                    <a href={config.chrome_store_url}>
-                      <Chrome className="h-4 w-4" />
-                      Add to Chrome
-                    </a>
-                  </Button>
-                ) : (
-                  <p className="text-sm text-muted-foreground">
-                    The store listing is being reviewed. In the meantime, load it
-                    from source on the right. It takes about a minute.
-                  </p>
-                )}
+              <CardContent className="space-y-3">
+                <Button asChild>
+                  <a href={config?.chrome_store_url || "/install"}>
+                    <Download className="h-4 w-4" />
+                    {config?.chrome_store_url
+                      ? "Add to Chrome"
+                      : "Get the extension"}
+                  </a>
+                </Button>
+                <p className="text-sm text-muted-foreground">
+                  {config?.chrome_store_url
+                    ? "One click, with automatic updates."
+                    : "RavenNow is not in a store yet, so you load it from a zip once. The steps and a one-line script are on the install page."}
+                </p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
                 <Terminal className="h-5 w-5 text-muted-foreground" />
-                <CardTitle className="pt-2 text-lg">Load it from source</CardTitle>
+                <CardTitle className="pt-2 text-lg">Build from source</CardTitle>
                 <CardDescription>
-                  For Edge too, and for anyone who likes to see the code.
+                  Clone the repo to load the extension, or run the backend too.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3 text-sm text-muted-foreground">
                 <ol className="list-decimal space-y-2 pl-5">
                   <li>
-                    Download or clone the repo
+                    Clone or download the repo
                     {config?.github_url ? (
                       <>
                         {" "}

@@ -13,7 +13,7 @@ export default function PrivacyPage() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      {meta ? <SiteHeader meta={meta} installHref="/#install" /> : null}
+      {meta ? <SiteHeader meta={meta} installHref="/install" /> : null}
 
       <main className="flex-1">
         <div className="container max-w-3xl py-14">

@@ -135,6 +135,9 @@ def meta() -> dict:
         "support_email": settings.support_email,
         "chrome_store_url": settings.chrome_store_url,
         "github_url": settings.github_url,
+        "extension_download_url": settings.extension_download_url,
+        "extension_installer_ps1_url": settings.extension_installer_ps1_url,
+        "extension_installer_sh_url": settings.extension_installer_sh_url,
         "reminder_offsets": DEFAULT_REMINDER_OFFSETS,
     }
 
@@ -418,6 +421,10 @@ def _mount_frontend(app: FastAPI) -> None:
     @app.get("/app", include_in_schema=False)
     def dashboard() -> FileResponse:
         return _page("dashboard.html")
+
+    @app.get("/install", include_in_schema=False)
+    def install() -> FileResponse:
+        return _page("install.html")
 
     @app.get("/favicon.svg", include_in_schema=False)
     def favicon() -> FileResponse:
