@@ -20,10 +20,28 @@ def _auth(token):
 def test_health_and_meta_and_schools():
     with _client() as client:
         assert client.get("/api/v1/health").json()["status"] == "ok"
+        # Plain /health alias for uptime monitors.
+        assert client.get("/health").json()["status"] == "ok"
         meta = client.get("/api/v1/meta").json()
         assert "support_email" in meta
         assert meta["extension_download_url"].endswith("ravennow-extension.zip")
         assert client.get("/api/v1/schools").json()["default"] == "carleton"
+
+
+def test_seo_files_and_og_image():
+    with _client() as client:
+        robots = client.get("/robots.txt")
+        assert robots.status_code == 200
+        assert "User-agent: *" in robots.text
+        assert "https://ravennow.test/sitemap.xml" in robots.text
+
+        sitemap = client.get("/sitemap.xml")
+        assert sitemap.status_code == 200
+        assert "https://ravennow.test/install" in sitemap.text
+
+        og = client.get("/og.png")
+        assert og.status_code == 200
+        assert og.headers["content-type"] == "image/png"
 
 
 def test_landing_and_legal_pages_served():
@@ -131,3 +149,40 @@ def test_dev_seed_loads_demo_data():
         assert res.status_code == 200
         deadlines = client.get("/api/v1/deadlines", headers=_auth(token)).json()
         assert len(deadlines) >= 5
+
+
+def test_feedback_inbox_requires_admin_token():
+    with _client() as client:
+        assert client.get("/api/v1/feedback").status_code == 401
+        assert (
+            client.get("/api/v1/feedback", headers={"X-Admin-Token": "wrong"}).status_code
+            == 401
+        )
+
+
+def test_admin_can_read_feedback_inbox():
+    with _client() as client:
+        client.post("/api/v1/feedback", json={"message": "Inbox check"})
+        res = client.get("/api/v1/feedback", headers={"X-Admin-Token": "test-admin-token"})
+        assert res.status_code == 200
+        data = res.json()
+        assert data["count"] >= 1
+        assert any(row["message"] == "Inbox check" for row in data["entries"])
+
+
+def test_delete_account_removes_everything():
+    with _client() as client:
+        token = _register(client, "api-delete")
+        client.post("/api/v1/scrape", headers=_auth(token), json={
+            "source": "brightspace",
+            "items": [{"course_external_id": "c1", "title": "A1", "due": "2026-10-01T23:59:00Z"}],
+        })
+        assert client.get("/api/v1/deadlines", headers=_auth(token)).json()
+
+        res = client.delete("/api/v1/me", headers=_auth(token))
+        assert res.status_code == 200
+        assert res.json()["ok"] is True
+
+        # The token no longer resolves, and its data is gone with it.
+        assert client.get("/api/v1/me", headers=_auth(token)).status_code == 401
+        assert client.get("/api/v1/deadlines", headers=_auth(token)).status_code == 401

@@ -73,6 +73,14 @@ export async function seedDemoData(token: string): Promise<void> {
   await jsonOrThrow(res);
 }
 
+export async function deleteAccount(token: string): Promise<void> {
+  const res = await fetch("/api/v1/me", {
+    method: "DELETE",
+    headers: authHeaders(token),
+  });
+  await jsonOrThrow(res);
+}
+
 export function formatDateTime(value: string | null, withTime = true): string {
   if (!value) return "No date";
   const d = new Date(value);

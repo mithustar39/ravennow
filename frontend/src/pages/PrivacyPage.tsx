@@ -91,22 +91,30 @@ export default function PrivacyPage() {
             <section className="space-y-2">
               <h2>Deleting your data</h2>
               <p>
-                You can request deletion of your anonymous account and all
-                associated data at any time
-                {meta?.support_email ? (
-                  <>
-                    {" "}
-                    by emailing{" "}
-                    <a
-                      className="font-medium text-foreground underline underline-offset-4"
-                      href={`mailto:${meta.support_email}`}
-                    >
-                      {meta.support_email}
-                    </a>
-                  </>
-                ) : null}
-                .
+                You can delete your anonymous account and everything stored with
+                it yourself, at any time. Open{" "}
+                <a
+                  className="font-medium text-foreground underline underline-offset-4"
+                  href="/app"
+                >
+                  the dashboard
+                </a>
+                , connect with your token, then choose Delete my data. That
+                removes your account, courses, deadlines and detected changes
+                right away.
               </p>
+              {meta?.support_email ? (
+                <p>
+                  Prefer to ask us? Email{" "}
+                  <a
+                    className="font-medium text-foreground underline underline-offset-4"
+                    href={`mailto:${meta.support_email}`}
+                  >
+                    {meta.support_email}
+                  </a>{" "}
+                  and we will remove it for you.
+                </p>
+              ) : null}
             </section>
           </div>
         </div>

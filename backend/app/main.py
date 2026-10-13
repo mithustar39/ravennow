@@ -15,7 +15,7 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, PlainTextResponse, Response
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -25,6 +25,7 @@ from .config import BACKEND_DIR, settings
 from .db import (
     Account,
     ChangeEvent,
+    Course,
     Deadline,
     FeedbackEntry,
     get_db,
@@ -33,6 +34,7 @@ from .db import (
     utcnow,
 )
 from .normalize import normalize_payload
+from .ratelimit import rate_limit
 from .security import hash_token, new_token
 from .tracking import apply_scrape
 
@@ -71,6 +73,13 @@ def current_account(
         raise HTTPException(status_code=401, detail="Invalid token")
     account.last_seen_at = utcnow()
     return account
+
+
+def require_admin(x_admin_token: str = Header(default="")) -> None:
+    """Gate admin-only routes behind a shared token from the environment."""
+
+    if not settings.admin_token or x_admin_token != settings.admin_token:
+        raise HTTPException(status_code=401, detail="Admin token required")
 
 
 # --------------------------------------------------------------------------
@@ -154,7 +163,11 @@ def schools() -> dict:
     }
 
 
-@api.post("/accounts", response_model=S.RegisterResponse)
+@api.post(
+    "/accounts",
+    response_model=S.RegisterResponse,
+    dependencies=[Depends(rate_limit("register", 20, 60))],
+)
 def register(body: S.RegisterRequest, db: Session = Depends(get_db)) -> S.RegisterResponse:
     token = new_token()
     account = Account(
@@ -180,7 +193,28 @@ def me(account: Account = Depends(current_account)) -> S.AccountOut:
     )
 
 
-@api.post("/scrape")
+@api.delete("/me")
+def delete_me(
+    account: Account = Depends(current_account),
+    db: Session = Depends(get_db),
+) -> dict:
+    """Delete this anonymous account and everything stored with it."""
+
+    db.query(ChangeEvent).filter(ChangeEvent.account_id == account.id).delete(
+        synchronize_session=False
+    )
+    db.query(Deadline).filter(Deadline.account_id == account.id).delete(
+        synchronize_session=False
+    )
+    db.query(Course).filter(Course.account_id == account.id).delete(
+        synchronize_session=False
+    )
+    db.delete(account)
+    db.commit()
+    return {"ok": True}
+
+
+@api.post("/scrape", dependencies=[Depends(rate_limit("scrape", 120, 60))])
 def scrape(
     body: S.ScrapeIn,
     account: Account = Depends(current_account),
@@ -314,7 +348,11 @@ def reminders(
     return {"reminders": out, "count": len(out)}
 
 
-@api.post("/feedback", response_model=S.FeedbackResponse)
+@api.post(
+    "/feedback",
+    response_model=S.FeedbackResponse,
+    dependencies=[Depends(rate_limit("feedback", 10, 3600))],
+)
 def feedback(body: S.FeedbackIn, db: Session = Depends(get_db)) -> S.FeedbackResponse:
     db.add(
         FeedbackEntry(
@@ -325,6 +363,38 @@ def feedback(body: S.FeedbackIn, db: Session = Depends(get_db)) -> S.FeedbackRes
     )
     db.commit()
     return S.FeedbackResponse()
+
+
+@api.get("/feedback")
+def list_feedback(
+    limit: int = Query(default=100, ge=1, le=500),
+    _: None = Depends(require_admin),
+    db: Session = Depends(get_db),
+) -> dict:
+    """Read the feedback inbox. Needs the X-Admin-Token header."""
+
+    rows = (
+        db.execute(
+            select(FeedbackEntry)
+            .order_by(FeedbackEntry.created_at.desc())
+            .limit(limit)
+        )
+        .scalars()
+        .all()
+    )
+    return {
+        "count": len(rows),
+        "entries": [
+            {
+                "id": row.id,
+                "email": row.email,
+                "message": row.message,
+                "school": row.school,
+                "created_at": iso(row.created_at),
+            }
+            for row in rows
+        ],
+    }
 
 
 @api.post("/dev/seed")
@@ -430,6 +500,10 @@ def _mount_frontend(app: FastAPI) -> None:
     def favicon() -> FileResponse:
         return _page("favicon.svg")
 
+    @app.get("/og.png", include_in_schema=False)
+    def og_image() -> FileResponse:
+        return _page("og.png")
+
 
 def create_app() -> FastAPI:
     application = FastAPI(
@@ -446,6 +520,40 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
     application.include_router(api)
+
+    @application.get("/health", include_in_schema=False)
+    def health_root() -> dict:
+        """Plain alias for /api/v1/health, handy for uptime monitors."""
+
+        return {
+            "status": "ok",
+            "app": settings.app_name,
+            "school": settings.school,
+            "environment": settings.environment,
+        }
+
+    @application.get("/robots.txt", include_in_schema=False)
+    def robots() -> PlainTextResponse:
+        lines = ["User-agent: *", "Allow: /", "Disallow: /app"]
+        if settings.public_url:
+            lines.append("Sitemap: " + settings.public_url + "/sitemap.xml")
+        return PlainTextResponse("\n".join(lines) + "\n")
+
+    @application.get("/sitemap.xml", include_in_schema=False)
+    def sitemap() -> Response:
+        base = settings.public_url
+        pages = ["/", "/install", "/privacy"]
+        urls = "\n".join(
+            "  <url><loc>" + base + path + "</loc></url>" for path in pages
+        )
+        xml = (
+            '<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+            + urls
+            + "\n</urlset>\n"
+        )
+        return Response(content=xml, media_type="application/xml")
+
     _mount_frontend(application)
     return application
 

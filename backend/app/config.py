@@ -95,6 +95,10 @@ class Settings:
         "RAVENNOW_INSTALLER_SH_URL",
         "https://raw.githubusercontent.com/mithustar39/ravennow/main/scripts/install-extension.sh",
     )
+    # Admin token for reading the feedback inbox. Empty disables the endpoint.
+    admin_token: str = os.getenv("RAVENNOW_ADMIN_TOKEN", "")
+    # Public origin of the deployed site, used for robots.txt and sitemap.xml.
+    public_url: str = os.getenv("RAVENNOW_PUBLIC_URL", "").rstrip("/")
 
     @property
     def is_sqlite(self) -> bool:

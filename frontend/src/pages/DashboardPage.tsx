@@ -17,6 +17,7 @@ import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/site-footer";
 import {
   checkDeadline,
+  deleteAccount,
   formatDateTime,
   getChanges,
   getDeadlines,
@@ -74,6 +75,7 @@ export default function DashboardPage() {
   const [error, setError] = useState(false);
   const [deadlines, setDeadlines] = useState<Deadline[]>([]);
   const [changes, setChanges] = useState<ChangeEvent[]>([]);
+  const [deleting, setDeleting] = useState(false);
 
   const load = useCallback(async (value: string) => {
     if (!value) return;
@@ -134,6 +136,32 @@ export default function DashboardPage() {
     } catch {
       setError(true);
       setMessage("Demo data is unavailable here.");
+    }
+  }
+
+  async function deleteAll() {
+    if (
+      !window.confirm(
+        "Delete your anonymous account and every deadline stored with it? This cannot be undone."
+      )
+    ) {
+      return;
+    }
+    setDeleting(true);
+    try {
+      await deleteAccount(token);
+      localStorage.removeItem("ravennow_token");
+      setToken("");
+      setDeadlines([]);
+      setChanges([]);
+      setConnected(false);
+      setError(false);
+      setMessage("Your data was deleted. Sync from the extension to start fresh.");
+    } catch {
+      setError(true);
+      setMessage("Could not delete your data. Try again in a moment.");
+    } finally {
+      setDeleting(false);
     }
   }
 
@@ -322,6 +350,31 @@ export default function DashboardPage() {
             )}
           </TabsContent>
         </Tabs>
+
+        {connected ? (
+          <Card className="mt-8 border-destructive/40">
+            <CardHeader>
+              <CardTitle className="text-base">Delete my data</CardTitle>
+              <CardDescription>
+                Removes your anonymous account and every deadline stored with it.
+                This cannot be undone.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={deleteAll}
+                disabled={deleting}
+              >
+                {deleting ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : null}
+                Delete everything
+              </Button>
+            </CardContent>
+          </Card>
+        ) : null}
       </main>
 
       {meta ? <SiteFooter meta={meta} /> : null}

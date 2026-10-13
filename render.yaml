@@ -14,10 +14,16 @@ services:
         generateValue: true
       - key: RAVENNOW_SUPPORT_EMAIL
         value: hello@ravennow.ca
+      - key: RAVENNOW_ADMIN_TOKEN
+        generateValue: true
       - key: RAVENNOW_DB
         fromDatabase:
           name: ravennow-db
           property: connectionString
+      # After the first deploy, set this to your service URL so robots.txt and
+      # sitemap.xml use the right origin.
+      # - key: RAVENNOW_PUBLIC_URL
+      #   value: https://ravennow.onrender.com
 
 databases:
   - name: ravennow-db
