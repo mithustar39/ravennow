@@ -1,0 +1,121 @@
+/* RavenNow side panel — light by default, follows the OS theme.
+   Mirrors the shadcn/ui tokens used on the website. */
+:root {
+  --background: #ffffff;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --border: #e4e4e7;
+  --primary: #18181b;
+  --primary-foreground: #fafafa;
+  --brand: #d11328;
+  --green: #15803d;
+  --amber: #b45309;
+  --destructive: #dc2626;
+  --radius: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #09090b;
+    --foreground: #fafafa;
+    --card: #0f0f11;
+    --muted: #18181b;
+    --muted-foreground: #a1a1aa;
+    --border: #27272a;
+    --primary: #fafafa;
+    --primary-foreground: #18181b;
+    --brand: #e11d48;
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --destructive: #f87171;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-width: 300px;
+}
+
+.head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; background: var(--background); z-index: 3;
+}
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.mark {
+  display: grid; place-items: center; width: 26px; height: 26px; border-radius: 7px;
+  background: var(--brand); color: #fff; font-size: 11px; font-weight: 700;
+}
+.head-actions { display: flex; gap: 6px; }
+.icon-btn {
+  display: grid; place-items: center;
+  background: var(--background); color: var(--foreground); border: 1px solid var(--border);
+  border-radius: 8px; width: 30px; height: 30px; cursor: pointer; font-size: 14px;
+}
+.icon-btn:hover { background: var(--muted); }
+.icon-btn.spin { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.status { padding: 8px 14px; color: var(--muted-foreground); font-size: 12px; border-bottom: 1px solid var(--border); }
+.status.error { color: var(--destructive); }
+
+.tabs { display: flex; gap: 4px; padding: 10px 12px 0; }
+.tab {
+  flex: 1; padding: 7px; border: 1px solid var(--border); background: var(--background);
+  color: var(--muted-foreground); border-radius: 8px; cursor: pointer; font-size: 13px;
+  font-family: inherit;
+}
+.tab:hover { background: var(--muted); }
+.tab.active { background: var(--muted); color: var(--foreground); font-weight: 500; }
+
+main { padding: 12px; }
+.view.hidden { display: none; }
+
+.week { margin-bottom: 16px; }
+.week h2 {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--muted-foreground); margin: 0 0 8px;
+}
+.item {
+  display: flex; gap: 10px; align-items: flex-start;
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 10px 11px; margin-bottom: 7px;
+}
+.item:hover { border-color: var(--muted-foreground); }
+.item input[type="checkbox"] { margin-top: 3px; accent-color: var(--foreground); }
+.item .body { flex: 1; min-width: 0; }
+.item .title { font-weight: 500; word-wrap: break-word; }
+.item.changed .title { text-decoration: line-through; text-decoration-color: var(--brand); text-decoration-thickness: 2px; }
+.item.done .title { color: var(--muted-foreground); text-decoration: line-through; }
+.item .meta { color: var(--muted-foreground); font-size: 12px; margin-top: 3px; }
+.item .due { color: var(--foreground); font-size: 12px; margin-top: 3px; }
+.item .new-due { color: var(--green); font-size: 12px; margin-top: 2px; }
+.pill {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--muted-foreground); border: 1px solid var(--border); border-radius: 999px;
+  padding: 1px 7px; white-space: nowrap; align-self: center;
+}
+.empty { color: var(--muted-foreground); padding: 18px 4px; }
+.change {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 10px 11px; margin-bottom: 7px;
+}
+.change .kind { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand); }
+.change .change-title { font-weight: 500; margin-top: 2px; }
+.change .when { color: var(--muted-foreground); font-size: 12px; margin-top: 3px; }
+
+.foot {
+  display: flex; gap: 14px; padding: 12px 14px; border-top: 1px solid var(--border);
+  position: sticky; bottom: 0; background: var(--background);
+}
+.link { background: none; border: none; color: var(--muted-foreground); cursor: pointer; font-size: 12px; padding: 0; font-family: inherit; }
+.link:hover { color: var(--foreground); text-decoration: underline; text-underline-offset: 3px; }

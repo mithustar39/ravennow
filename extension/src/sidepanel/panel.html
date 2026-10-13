@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RavenNow</title>
+  <link rel="stylesheet" href="panel.css" />
+</head>
+<body>
+  <header class="head">
+    <div class="brand">
+      <span class="mark">RN</span>
+      <span class="name">RavenNow</span>
+    </div>
+    <div class="head-actions">
+      <button id="sync" class="icon-btn" title="Sync now">⟳</button>
+      <button id="options" class="icon-btn" title="Settings">⚙</button>
+    </div>
+  </header>
+
+  <div class="status" id="status">Connecting…</div>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="deadlines">Deadlines</button>
+    <button class="tab" data-tab="changes">Changes</button>
+  </nav>
+
+  <main>
+    <section id="view-deadlines" class="view"></section>
+    <section id="view-changes" class="view hidden"></section>
+  </main>
+
+  <footer class="foot">
+    <button id="open-learn" class="link">Open Brightspace</button>
+    <button id="open-dashboard" class="link">Web dashboard</button>
+  </footer>
+
+  <script src="panel.js"></script>
+</body>
+</html>

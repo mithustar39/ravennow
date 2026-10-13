@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RavenNow — Settings</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="page-head">
+      <div class="brand"><span class="mark">RN</span> RavenNow</div>
+      <span class="muted">Settings</span>
+    </header>
+
+    <section class="card">
+      <h2>Connection</h2>
+      <p class="muted">
+        Point the extension at your RavenNow server. Local development uses
+        <code>http://localhost:8000</code>.
+      </p>
+
+      <label class="field">
+        <span>API base URL</span>
+        <input id="api_base" type="url" placeholder="https://ravennow.onrender.com" autocomplete="off" />
+      </label>
+
+      <div class="grid">
+        <label class="field">
+          <span>School</span>
+          <select id="school">
+            <option value="carleton">Carleton University — Brightspace</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Device label <span class="muted">(optional)</span></span>
+          <input id="device_label" type="text" placeholder="My laptop" autocomplete="off" />
+        </label>
+      </div>
+
+      <div class="actions">
+        <button id="save" class="btn btn-primary">Save &amp; connect</button>
+        <button id="test" class="btn">Test connection</button>
+        <button id="reset" class="btn btn-danger">Reset device</button>
+      </div>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="card">
+      <h2>Diagnostics</h2>
+      <p class="muted">
+        Runs a collection on the active tab (must be a Brightspace page) and
+        reports how many deadlines were read. Useful if a sync returns nothing.
+      </p>
+      <div class="actions">
+        <button id="scan" class="btn">Scan active tab</button>
+      </div>
+      <pre id="diag" class="diag"></pre>
+    </section>
+
+    <section class="card">
+      <h2>Access token</h2>
+      <p class="muted">
+        Anonymous. No personal information is stored. Paste this into the web
+        dashboard (<code>/app</code>) to view your deadlines there.
+      </p>
+      <div class="token-row">
+        <input id="token" type="text" readonly />
+        <button id="copy" class="btn">Copy</button>
+      </div>
+      <p class="muted small">Account ID: <span id="account_id">—</span> · Last sync: <span id="last_sync">—</span></p>
+    </section>
+
+    <footer class="page-foot">
+      <a href="/privacy" id="privacy-link">Privacy policy</a>
+      <span class="muted">RavenNow is an independent student project.</span>
+    </footer>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

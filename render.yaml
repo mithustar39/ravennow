@@ -1,0 +1,24 @@
+# Render blueprint. Push to a Git repo, then "New > Blueprint" in Render.
+# https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: ravennow
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: RAVENNOW_ENV
+        value: production
+      - key: RAVENNOW_SECRET
+        generateValue: true
+      - key: RAVENNOW_SUPPORT_EMAIL
+        value: hello@ravennow.ca
+      - key: RAVENNOW_DB
+        fromDatabase:
+          name: ravennow-db
+          property: connectionString
+
+databases:
+  - name: ravennow-db
+    plan: free

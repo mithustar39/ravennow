@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "RavenNow — Carleton deadlines",
+  "version": "0.1.0",
+  "description": "Reads your Brightspace deadlines into a side panel and keeps them up to date when profs move them.",
+  "minimum_chrome_version": "114",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage",
+    "alarms",
+    "sidePanel",
+    "notifications",
+    "tabs",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://brightspace.carleton.ca/*",
+    "http://localhost:8000/*",
+    "http://127.0.0.1:8000/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "side_panel": {
+    "default_path": "src/sidepanel/panel.html"
+  },
+  "action": {
+    "default_title": "Open RavenNow"
+  },
+  "options_page": "src/options/options.html",
+  "content_scripts": [
+    {
+      "matches": ["https://brightspace.carleton.ca/*"],
+      "js": ["src/common.js", "src/content/brightspace.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

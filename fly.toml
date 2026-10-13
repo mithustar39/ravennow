@@ -1,0 +1,30 @@
+app = "ravennow"
+primary_region = "yyz"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  RAVENNOW_ENV = "production"
+  PORT = "8000"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[http_service.checks]]
+  method = "GET"
+  path = "/api/v1/health"
+  interval = "30s"
+  timeout = "5s"
+
+# Persist the SQLite database across deploys:
+#   fly volumes create ravennow_data --size 1
+# then uncomment the [[mounts]] block and set
+#   RAVENNOW_DB = "sqlite:////data/ravennow.db"
+# [[mounts]]
+#   source = "ravennow_data"
+#   destination = "/data"

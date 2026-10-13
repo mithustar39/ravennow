@@ -1,0 +1,29 @@
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# Node / frontend
+node_modules/
+frontend/node_modules/
+npm-debug.log*
+
+# Built frontend assets (produced by `npm --prefix frontend run build`)
+backend/static/
+
+# Runtime data (SQLite database, secrets)
+data/
+*.db
+*.sqlite3
+
+# Local env
+.env
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

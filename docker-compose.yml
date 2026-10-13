@@ -1,0 +1,13 @@
+# Local "production-like" run: docker compose up --build
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      RAVENNOW_ENV: production
+      RAVENNOW_SECRET: ${RAVENNOW_SECRET:-change-me-to-a-long-random-string}
+      RAVENNOW_DB: sqlite:////data/ravennow.db
+      RAVENNOW_SUPPORT_EMAIL: ${RAVENNOW_SUPPORT_EMAIL:-hello@ravennow.ca}
+    volumes:
+      - ./data:/data
