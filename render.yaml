@@ -1,5 +1,12 @@
 # Render blueprint. Push to a Git repo, then "New > Blueprint" in Render.
 # https://render.com/docs/blueprint-spec
+#
+# This expects an external Postgres (for example Neon's free tier) instead of a
+# Render database. RAVENNOW_DB is marked "sync: false", so Render prompts you to
+# paste the connection string while creating the service.
+#
+# You do not need to set RAVENNOW_PUBLIC_URL: it is derived from Render's own
+# RENDER_EXTERNAL_URL for robots.txt and sitemap.xml.
 services:
   - type: web
     name: ravennow
@@ -12,19 +19,11 @@ services:
         value: production
       - key: RAVENNOW_SECRET
         generateValue: true
-      - key: RAVENNOW_SUPPORT_EMAIL
-        value: hello@ravennow.ca
       - key: RAVENNOW_ADMIN_TOKEN
         generateValue: true
+      - key: RAVENNOW_SUPPORT_EMAIL
+        value: hello@ravennow.ca
+      # Paste your Postgres URL (Neon, Supabase, ...) when Render asks for it.
+      # Example: postgresql://user:pass@ep-xxx.aws.neon.tech/neondb?sslmode=require
       - key: RAVENNOW_DB
-        fromDatabase:
-          name: ravennow-db
-          property: connectionString
-      # After the first deploy, set this to your service URL so robots.txt and
-      # sitemap.xml use the right origin.
-      # - key: RAVENNOW_PUBLIC_URL
-      #   value: https://ravennow.onrender.com
-
-databases:
-  - name: ravennow-db
-    plan: free
+        sync: false

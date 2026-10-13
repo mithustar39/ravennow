@@ -49,7 +49,8 @@ def _database_url() -> str:
     """Resolve the DB URL, normalizing managed-Postgres URLs.
 
     Render, Railway and Heroku hand out ``postgres://`` URLs; SQLAlchemy's
-    psycopg driver needs the ``postgresql+psycopg://`` scheme.
+    psycopg driver needs the ``postgresql+psycopg://`` scheme. Neon URLs already
+    use ``postgresql://`` and may carry ``?sslmode=require``, which is kept.
     """
 
     url = os.getenv("RAVENNOW_DB")
@@ -60,6 +61,26 @@ def _database_url() -> str:
     elif url.startswith("postgresql://"):
         url = "postgresql+psycopg://" + url[len("postgresql://") :]
     return url
+
+
+def _public_url() -> str:
+    """Public origin for robots.txt and sitemap.xml.
+
+    Prefers an explicit ``RAVENNOW_PUBLIC_URL``, then falls back to the URL the
+    host injects (Render's ``RENDER_EXTERNAL_URL``, Railway's
+    ``RAILWAY_PUBLIC_DOMAIN``).
+    """
+
+    explicit = os.getenv("RAVENNOW_PUBLIC_URL", "").strip()
+    if explicit:
+        return explicit.rstrip("/")
+    render = os.getenv("RENDER_EXTERNAL_URL", "").strip()
+    if render:
+        return render.rstrip("/")
+    railway = os.getenv("RAILWAY_PUBLIC_DOMAIN", "").strip()
+    if railway:
+        return ("https://" + railway).rstrip("/")
+    return ""
 
 
 @dataclass(frozen=True)
@@ -98,7 +119,7 @@ class Settings:
     # Admin token for reading the feedback inbox. Empty disables the endpoint.
     admin_token: str = os.getenv("RAVENNOW_ADMIN_TOKEN", "")
     # Public origin of the deployed site, used for robots.txt and sitemap.xml.
-    public_url: str = os.getenv("RAVENNOW_PUBLIC_URL", "").rstrip("/")
+    public_url: str = field(default_factory=_public_url)
 
     @property
     def is_sqlite(self) -> bool:

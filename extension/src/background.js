@@ -17,6 +17,8 @@ const DEFAULTS = {
   last_sync_at: null,
   last_result: null,
   last_error: null,
+  last_diag: null,
+  last_diag_at: null,
 };
 
 const SUPPORTED_PATTERNS = [
@@ -75,13 +77,17 @@ async function postScrape(payload) {
   let cfg = await ensureAccount();
   const url = apiBase(cfg) + "/api/v1/scrape";
 
+  // Keep the diagnostics locally; the server does not need them.
+  const { diag, ...body } = payload;
+  if (diag) await setConfig({ last_diag: diag, last_diag_at: new Date().toISOString() });
+
   let res = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + cfg.token,
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(body),
   });
 
   if (res.status === 401) {
@@ -92,7 +98,7 @@ async function postScrape(payload) {
         "Content-Type": "application/json",
         Authorization: "Bearer " + cfg.token,
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(body),
     });
   }
 
@@ -191,6 +197,8 @@ async function getState() {
     last_sync_at: cfg.last_sync_at,
     last_error: cfg.last_error,
     last_result: cfg.last_result,
+    last_diag: cfg.last_diag,
+    last_diag_at: cfg.last_diag_at,
   };
 }
 

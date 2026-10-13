@@ -45,6 +45,14 @@
       link.href = state.api_base.replace(/\/+$/, "") + "/privacy";
       link.target = "_blank";
     }
+
+    if (state.last_diag && !$("diag").textContent) {
+      $("diag").textContent =
+        "Last sync " +
+        (state.last_diag_at ? new Date(state.last_diag_at).toLocaleString() : "") +
+        "\n" +
+        formatDiag(state.last_diag, state.last_result);
+    }
     return state;
   }
 
@@ -116,20 +124,41 @@
       if (!resp || !resp.ok) throw new Error((resp && resp.error) || "Collect failed");
       const payload = resp.payload || {};
       const result = await send("RAVENNOW_SCRAPE", { payload });
-      $("diag").textContent =
-        "courses: " + (payload.courses ? payload.courses.length : 0) +
-        "\nitems read: " + (payload.items ? payload.items.length : 0) +
-        "\nposted: " + JSON.stringify(result.result && result.result.changes ? {
-          new: result.result.new,
-          updated: result.result.updated,
-          changes: result.result.changes.length,
-        } : {});
+      $("diag").textContent = formatDiag(payload.diag, result && result.result);
       setStatus("Scan complete.", "ok");
       await refresh();
     } catch (err) {
       $("diag").textContent = String(err.message || err);
       setStatus("Scan failed.", "error");
     }
+  }
+
+  function formatDiag(d, result) {
+    d = d || {};
+    const versions =
+      "lp=" + ((d.lpVersions || []).join("/") || "?") +
+      "  le=" + ((d.leVersions || []).join("/") || "?");
+    const failed = (d.attempts || []).filter((a) => !a.ok);
+    const lines = [
+      "API versions: " + versions,
+      "courses: " + (d.courses ?? "?"),
+      "items read: " + (d.items ?? "?"),
+    ];
+    if (d.usedDom) lines.push("(used DOM fallback, " + (d.domItems || 0) + " items)");
+    if (result) {
+      lines.push(
+        "posted: new=" + (result.new ?? "?") +
+          " updated=" + (result.updated ?? "?") +
+          " changes=" + ((result.changes && result.changes.length) || 0)
+      );
+    }
+    if (failed.length) {
+      lines.push("failed calls (" + failed.length + "):");
+      failed.slice(0, 10).forEach((f) => lines.push("  " + f.status + " " + f.path));
+    } else {
+      lines.push("failed calls: none");
+    }
+    return lines.join("\n");
   }
 
   async function reset() {
