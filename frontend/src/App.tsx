@@ -32,7 +32,7 @@ const FEATURES = [
   {
     icon: RefreshCw,
     title: "Moved dates are caught",
-    body: "When a due date changes on Brightspace, the old one is crossed out and the item moves to the week it's due now — even if you missed the announcement.",
+    body: "When a due date changes on Brightspace, the old one is crossed out and the item moves to the week it is due now, even if you missed the announcement.",
   },
   {
     icon: BellRing,
@@ -101,7 +101,7 @@ export default function App() {
                 </Button>
               </div>
               <p className="text-sm text-muted-foreground">
-                Free · Works in Chrome and Edge · Brightspace only
+                Free. Works in Chrome and Edge. Brightspace only.
               </p>
             </div>
             <DeadlinePreview />
@@ -112,7 +112,7 @@ export default function App() {
         <section id="how" className="container py-16 md:py-20">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-semibold tracking-tight">
-              Built to be boringly reliable
+              What it does
             </h2>
             <p className="mt-3 text-muted-foreground">
               A small tool that does one job well: keep your deadlines straight.
@@ -180,7 +180,7 @@ export default function App() {
                 ) : (
                   <p className="text-sm text-muted-foreground">
                     The store listing is being reviewed. In the meantime, load it
-                    from source on the right — it takes about a minute.
+                    from source on the right. It takes about a minute.
                   </p>
                 )}
               </CardContent>
@@ -237,7 +237,7 @@ export default function App() {
                 </h2>
                 <p className="text-muted-foreground">
                   Found a bug, or want a feature or another school supported? Send
-                  it here — it goes straight to the developer.
+                  it here and it goes straight to the developer.
                 </p>
                 {config?.support_email ? (
                   <p className="text-sm text-muted-foreground">

@@ -63,7 +63,7 @@ export function FeedbackForm() {
         </Button>
         {status === "sent" ? (
           <span className="text-sm text-emerald-600">
-            Thanks — we got your message.
+            Thanks. We got your message.
           </span>
         ) : null}
         {status === "error" ? (

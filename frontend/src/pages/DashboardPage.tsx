@@ -312,7 +312,7 @@ export default function DashboardPage() {
                         <p className="mt-2 font-medium">{change.title}</p>
                         <p className="text-sm text-muted-foreground">
                           {change.kind === "due_changed" && change.new_due
-                            ? `now ${formatDateTime(change.new_due)} · ${formatDateTime(change.detected_at)}`
+                            ? `now ${formatDateTime(change.new_due)}. Detected ${formatDateTime(change.detected_at)}`
                             : formatDateTime(change.detected_at)}
                         </p>
                       </CardContent>

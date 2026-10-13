@@ -78,7 +78,7 @@
         const sameMonth = start.getMonth() === end.getMonth();
         heading.textContent =
           start.toLocaleDateString(undefined, { month: "short", day: "numeric" }) +
-          " – " +
+          " to " +
           end.toLocaleDateString(undefined, sameMonth ? { day: "numeric" } : { month: "short", day: "numeric" });
       }
       section.appendChild(heading);
@@ -187,7 +187,7 @@
       const when = document.createElement("div");
       when.className = "when";
       let line = fmt(c.detected_at, true);
-      if (c.kind === "due_changed" && c.new_due) line = "now " + fmt(c.new_due, true) + " · " + line;
+      if (c.kind === "due_changed" && c.new_due) line = "now " + fmt(c.new_due, true) + ". Detected " + line;
       when.textContent = line;
 
       box.appendChild(kind);
@@ -213,7 +213,7 @@
       } else if (state.state.last_sync_at) {
         setStatus("Last synced " + fmt(state.state.last_sync_at, true));
       } else {
-        setStatus("Not synced yet — open Brightspace, then hit ⟳.");
+        setStatus("Not synced yet. Open Brightspace, then tap refresh.");
       }
 
       renderDeadlines(deadlines.deadlines);

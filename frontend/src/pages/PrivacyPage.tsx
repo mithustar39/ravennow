@@ -59,7 +59,7 @@ export default function PrivacyPage() {
               <h2>What we do not collect</h2>
               <ul>
                 <li>Your name, email or student number.</li>
-                <li>Your Brightspace password — RavenNow never sees it.</li>
+                <li>Your Brightspace password. RavenNow never sees it.</li>
                 <li>
                   Your grades, submissions, discussion posts or any other course
                   content.

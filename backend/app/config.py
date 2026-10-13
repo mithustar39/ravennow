@@ -78,7 +78,9 @@ class Settings:
     # Branding / links surfaced on the landing page.
     support_email: str = os.getenv("RAVENNOW_SUPPORT_EMAIL", "hello@ravennow.ca")
     chrome_store_url: str = os.getenv("RAVENNOW_CHROME_STORE_URL", "")
-    github_url: str = os.getenv("RAVENNOW_GITHUB_URL", "")
+    github_url: str = os.getenv(
+        "RAVENNOW_GITHUB_URL", "https://github.com/mithustar39/ravennow"
+    )
 
     @property
     def is_sqlite(self) -> bool:

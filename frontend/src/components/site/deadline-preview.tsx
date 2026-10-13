@@ -3,9 +3,9 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 
 const ROWS = [
-  { type: "Assignment", title: "COMP 1405 · Assignment 3", when: "Tue 11:59 PM", dot: "bg-brand" },
-  { type: "Quiz", title: "MATH 1007 · Quiz 2", when: "Fri 12:00 PM", dot: "bg-amber-500" },
-  { type: "Lab", title: "PHYS 1003 · Lab 4", when: "Sun 5:00 PM", dot: "bg-sky-500" },
+  { type: "Assignment", title: "COMP 1405: Assignment 3", when: "Tue 11:59 PM", dot: "bg-brand" },
+  { type: "Quiz", title: "MATH 1007: Quiz 2", when: "Fri 12:00 PM", dot: "bg-amber-500" },
+  { type: "Lab", title: "PHYS 1003: Lab 4", when: "Sun 5:00 PM", dot: "bg-sky-500" },
 ];
 
 export function DeadlinePreview() {
@@ -33,7 +33,7 @@ export function DeadlinePreview() {
           <span className="h-2 w-2 shrink-0 rounded-full bg-brand" />
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-medium line-through decoration-brand decoration-2">
-              COMP 1405 · Quiz 2
+              COMP 1405: Quiz 2
             </p>
             <p className="text-xs text-emerald-600">Moved to Mon 9:00 AM</p>
           </div>

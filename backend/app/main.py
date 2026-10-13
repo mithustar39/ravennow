@@ -336,12 +336,12 @@ def dev_seed(
 
     now = utcnow()
     demo_courses = [
-        {"external_id": "carleton-brightspace-COMP1405", "name": "COMP 1405 A — Intro to Computer Science", "code": "COMP 1405"},
-        {"external_id": "carleton-brightspace-MATH1007", "name": "MATH 1007 B — Elementary Calculus", "code": "MATH 1007"},
-        {"external_id": "carleton-brightspace-ECON1001", "name": "ECON 1001 C — Intro to Economics", "code": "ECON 1001"},
+        {"external_id": "carleton-brightspace-COMP1405", "name": "COMP 1405 A: Intro to Computer Science", "code": "COMP 1405"},
+        {"external_id": "carleton-brightspace-MATH1007", "name": "MATH 1007 B: Elementary Calculus", "code": "MATH 1007"},
+        {"external_id": "carleton-brightspace-ECON1001", "name": "ECON 1001 C: Intro to Economics", "code": "ECON 1001"},
     ]
     demo_items = [
-        {"course_external_id": demo_courses[0]["external_id"], "title": "Assignment 3 — Recursion", "type": "assignment", "due": (now + dt.timedelta(days=2)).replace(hour=23, minute=59), "source": "brightspace"},
+        {"course_external_id": demo_courses[0]["external_id"], "title": "Assignment 3: Recursion", "type": "assignment", "due": (now + dt.timedelta(days=2)).replace(hour=23, minute=59), "source": "brightspace"},
         {"course_external_id": demo_courses[0]["external_id"], "title": "Lab 4", "type": "lab", "due": (now + dt.timedelta(days=1)).replace(hour=23, minute=59), "source": "brightspace"},
         {"course_external_id": demo_courses[1]["external_id"], "title": "Quiz 2", "type": "quiz", "due": (now + dt.timedelta(days=5, hours=12)), "source": "brightspace"},
         {"course_external_id": demo_courses[1]["external_id"], "title": "Midterm", "type": "exam", "due": (now + dt.timedelta(days=12, hours=9)), "source": "brightspace"},

@@ -8,7 +8,7 @@
  *
  * NOTE: D2L API paths/versions vary between instances. Each call is wrapped so
  * one failure never aborts the whole sync. If Carleton changes its routes, add
- * them to the arrays below — the rest of the pipeline is unaffected.
+ * them to the arrays below. The rest of the pipeline is unaffected.
  */
 (function () {
   "use strict";

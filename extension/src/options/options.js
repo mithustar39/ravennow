@@ -35,7 +35,7 @@
     $("school").value = state.school || "carleton";
     $("device_label").value = state.device_label || "";
     $("token").value = state.token || "";
-    $("account_id").textContent = state.account_id ?? "—";
+    $("account_id").textContent = state.account_id ?? "None";
     $("last_sync").textContent = state.last_sync_at
       ? new Date(state.last_sync_at).toLocaleString()
       : "never";
@@ -93,7 +93,7 @@
       const api_base = normalizeBase($("api_base").value);
       await send("RAVENNOW_SAVE_CONFIG", { patch: { api_base } });
       const { health } = await send("RAVENNOW_TEST");
-      setStatus("OK — " + health.app + " · " + health.school + " · " + health.environment, "ok");
+      setStatus("OK: " + health.app + ", " + health.school + ", " + health.environment, "ok");
     } catch (err) {
       setStatus(String(err.message || err), "error");
     } finally {
@@ -144,7 +144,7 @@
     // The token itself is never sent to the options page; ask storage directly
     // only to place it on the clipboard on explicit user action.
     const { token } = await chrome.storage.local.get("token");
-    if (!token) return setStatus("No token yet — connect first.", "error");
+    if (!token) return setStatus("No token yet. Connect first.", "error");
     await navigator.clipboard.writeText(token);
     setStatus("Token copied to clipboard.", "ok");
   }

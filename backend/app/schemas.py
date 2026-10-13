@@ -114,4 +114,4 @@ class FeedbackIn(BaseModel):
 
 class FeedbackResponse(BaseModel):
     ok: bool = True
-    message: str = "Thanks — we got your message."
+    message: str = "Thanks. We got your message."

@@ -1,4 +1,4 @@
-/* RavenNow side panel — light by default, follows the OS theme.
+/* RavenNow side panel. Light by default, follows the OS theme.
    Mirrors the shadcn/ui tokens used on the website. */
 :root {
   --background: #ffffff;
