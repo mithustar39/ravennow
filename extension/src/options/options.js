@@ -110,17 +110,28 @@
   }
 
   async function scan() {
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    if (!tab || !tab.id) return setStatus("No active tab.", "error");
-    if (!/^https:\/\/brightspace\.carleton\.ca\//i.test(tab.url || "")) {
-      $("diag").textContent = "Active tab is not a Brightspace page.\nOpen https://brightspace.carleton.ca/ and try again.";
+    const tabs = await chrome.tabs.query({ url: "https://brightspace.carleton.ca/*" });
+    if (!tabs.length) {
+      $("diag").textContent =
+        "No Brightspace tab found.\nOpen https://brightspace.carleton.ca/, sign in, then try again.";
+      setStatus("");
       return;
     }
+    const tab = tabs.find((t) => t.active) || tabs[0];
 
-    $("diag").textContent = "Scanning…";
+    $("diag").textContent = "Scanning " + tab.url + " …";
     setStatus("");
     try {
-      const resp = await chrome.tabs.sendMessage(tab.id, { type: "RAVENNOW_COLLECT" });
+      let resp;
+      try {
+        resp = await chrome.tabs.sendMessage(tab.id, { type: "RAVENNOW_COLLECT" });
+      } catch (err) {
+        // The page was opened before the extension loaded, so no content script.
+        $("diag").textContent =
+          "Could not reach the page script.\nReload the Brightspace tab, then scan again.";
+        setStatus("Reload the Brightspace tab, then scan.", "error");
+        return;
+      }
       if (!resp || !resp.ok) throw new Error((resp && resp.error) || "Collect failed");
       const payload = resp.payload || {};
       const result = await send("RAVENNOW_SCRAPE", { payload });

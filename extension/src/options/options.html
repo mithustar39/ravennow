@@ -49,11 +49,12 @@
     <section class="card">
       <h2>Diagnostics</h2>
       <p class="muted">
-        Runs a collection on the active tab (must be a Brightspace page) and
-        reports how many deadlines were read. Useful if a sync returns nothing.
+        Reads the deadlines from your open Brightspace tab and reports how many
+        it found, which API versions the site supports, and any calls that
+        failed. Useful if a sync returns nothing.
       </p>
       <div class="actions">
-        <button id="scan" class="btn">Scan active tab</button>
+        <button id="scan" class="btn">Scan Brightspace tab</button>
       </div>
       <pre id="diag" class="diag"></pre>
     </section>
