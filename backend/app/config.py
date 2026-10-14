@@ -85,7 +85,7 @@ def _public_url() -> str:
 
 @dataclass(frozen=True)
 class Settings:
-    app_name: str = os.getenv("RAVENNOW_APP_NAME", "RavenNow")
+    app_name: str = os.getenv("RAVENNOW_APP_NAME", "Raven Scheduling")
     school: str = os.getenv("RAVENNOW_SCHOOL", "carleton")
     environment: str = os.getenv("RAVENNOW_ENV", "development")
     secret_key: str = os.getenv("RAVENNOW_SECRET", "dev-insecure-change-me")

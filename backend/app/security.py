@@ -1,6 +1,6 @@
 """Token helpers.
 
-RavenNow deliberately avoids passwords and personal information. A device
+Raven Scheduling deliberately avoids passwords and personal information. A device
 registers once and receives an opaque bearer token; only its SHA-256 hash is
 stored, so a database leak does not expose usable tokens.
 """

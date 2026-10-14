@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "RavenNow: Carleton deadlines",
+  "name": "Raven Scheduling: Carleton deadlines",
   "version": "0.1.0",
   "description": "Reads your Brightspace deadlines into a side panel and keeps them up to date when profs move them.",
   "minimum_chrome_version": "114",
@@ -33,7 +33,7 @@
     "default_path": "src/sidepanel/panel.html"
   },
   "action": {
-    "default_title": "Open RavenNow"
+    "default_title": "Open Raven Scheduling"
   },
   "options_page": "src/options/options.html",
   "content_scripts": [

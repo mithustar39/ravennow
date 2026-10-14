@@ -1,9 +1,9 @@
 /**
- * RavenNow background service worker.
+ * Raven Scheduling background service worker.
  *
  * Responsibilities:
  *  - Keep an anonymous account token (register once, no PII).
- *  - Post scraped deadlines to the RavenNow API and store the result.
+ *  - Post scraped deadlines to the Raven Scheduling API and store the result.
  *  - Poll supported sites every 30 minutes and notify on due-date changes.
  *  - Act as the only component that talks to the network on behalf of the UI.
  */
@@ -59,7 +59,7 @@ async function ensureAccount(force = false) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      device_label: cfg.device_label || "RavenNow extension",
+      device_label: cfg.device_label || "Raven Scheduling extension",
       school: cfg.school || "carleton",
     }),
   });

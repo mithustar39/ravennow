@@ -1,6 +1,6 @@
 # Store listing kit
 
-RavenNow ships through the no-store install flow (see `/install`). This folder
+Raven Scheduling ships through the no-store install flow (see `/install`). This folder
 keeps the store submission material ready for whenever it is worth publishing to
 the Chrome Web Store or Microsoft Edge Add-ons. Nothing here is required for the
 current install flow.
@@ -39,14 +39,14 @@ from the install page to the store button.
 
 ## Listing text
 
-- Name: `RavenNow: Carleton deadlines`
+- Name: `Raven Scheduling: Carleton deadlines`
 - Short description: `Every Brightspace deadline in one side panel, kept up to date when a prof moves a due date.`
 - Category: Productivity
 - Language: English
 
 Detailed description:
 
-> RavenNow puts your Brightspace deadlines in a side panel so you can see what
+> Raven Scheduling puts your Brightspace deadlines in a side panel so you can see what
 > is due without digging through course pages.
 >
 > It reads the courses you are already signed in to, lists every assignment,
@@ -60,7 +60,7 @@ Detailed description:
 > - Reminders you control
 > - No account and no personal information, just an anonymous device token
 >
-> RavenNow reads Brightspace using the session you already have. It never asks
+> Raven Scheduling reads Brightspace using the session you already have. It never asks
 > for your password. It is not affiliated with or endorsed by D2L Corporation or
 > Carleton University.
 

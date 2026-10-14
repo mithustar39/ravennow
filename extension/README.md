@@ -1,7 +1,7 @@
-# RavenNow extension (Chrome / Edge, MV3)
+# Raven Scheduling extension (Chrome / Edge, MV3)
 
 A side panel that reads your Brightspace deadlines and keeps them in sync with
-the RavenNow backend.
+the Raven Scheduling backend.
 
 ## Load it
 

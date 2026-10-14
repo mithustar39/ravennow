@@ -30,7 +30,7 @@ export default function PrivacyPage() {
             <section className="space-y-2">
               <h2>The short version</h2>
               <p>
-                RavenNow does not ask for your name, email, student number or
+                Raven Scheduling does not ask for your name, email, student number or
                 Brightspace password. It stores the deadlines it reads from your
                 courses so it can show them to you and notice when a due date
                 changes.
@@ -47,7 +47,7 @@ export default function PrivacyPage() {
                   Course names and codes, and assignment titles, types and due
                   dates read from your Brightspace pages.
                 </li>
-                <li>Which items you have checked off in RavenNow.</li>
+                <li>Which items you have checked off in Raven Scheduling.</li>
                 <li>
                   Basic technical data needed to run the service, such as sync
                   timestamps.
@@ -59,7 +59,7 @@ export default function PrivacyPage() {
               <h2>What we do not collect</h2>
               <ul>
                 <li>Your name, email or student number.</li>
-                <li>Your Brightspace password. RavenNow never sees it.</li>
+                <li>Your Brightspace password. Raven Scheduling never sees it.</li>
                 <li>
                   Your grades, submissions, discussion posts or any other course
                   content.
@@ -73,7 +73,7 @@ export default function PrivacyPage() {
               <p>
                 The browser extension reads deadline information from Brightspace
                 pages you are already signed in to. It sends that deadline
-                information to the RavenNow server, which normalizes and stores it
+                information to the Raven Scheduling server, which normalizes and stores it
                 so your list stays consistent and changes can be detected between
                 syncs.
               </p>
@@ -82,7 +82,7 @@ export default function PrivacyPage() {
             <section className="space-y-2">
               <h2>Third parties</h2>
               <p>
-                RavenNow is not affiliated with or endorsed by D2L Corporation or
+                Raven Scheduling is not affiliated with or endorsed by D2L Corporation or
                 Carleton University. We do not sell your data. Data is stored on
                 our hosting provider solely to operate the service.
               </p>

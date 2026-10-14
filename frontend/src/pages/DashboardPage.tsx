@@ -224,7 +224,7 @@ export default function DashboardPage() {
                   type="password"
                   value={token}
                   onChange={(event) => setToken(event.target.value)}
-                  placeholder="Paste your RavenNow token"
+                  placeholder="Paste your Raven Scheduling token"
                   autoComplete="off"
                 />
               </div>

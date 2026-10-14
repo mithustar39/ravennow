@@ -1,5 +1,5 @@
 /**
- * Shared helpers for RavenNow content scripts.
+ * Shared helpers for Raven Scheduling content scripts.
  *
  * Content scripts run in an isolated world, but files injected into the same
  * frame share it, so `window.RN` defined here is visible to brightspace.js.
@@ -11,7 +11,7 @@
     DEBUG: false,
 
     log(...args) {
-      if (RN.DEBUG) console.debug("[RavenNow]", ...args);
+      if (RN.DEBUG) console.debug("[Raven Scheduling]", ...args);
     },
 
     /** Collapse whitespace in a DOM node's text. */

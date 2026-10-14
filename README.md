@@ -1,10 +1,10 @@
-# RavenNow
+# Raven Scheduling
 
 [![CI](https://github.com/mithustar39/ravennow/actions/workflows/ci.yml/badge.svg)](https://github.com/mithustar39/ravennow/actions/workflows/ci.yml)
 
 **Your Brightspace deadlines, in a browser side panel, kept up to date when profs move them.**
 
-RavenNow is a Carleton-focused take on [WATnow](https://watnow.ugmi.ca/). A small
+Raven Scheduling is a Carleton-focused take on [WATnow](https://watnow.ugmi.ca/). A small
 Chrome/Edge extension reads the deadlines from the Brightspace pages you are
 already signed in to, and a Python backend normalizes them, stores them, and
 detects when a due date changes. The result: one clean list of assignments,
@@ -15,7 +15,7 @@ labs, quizzes and discussions that stays correct all term.
 - **shadcn/ui** frontend (React + Tailwind), built to static files the Python app serves.
 - **No account, no personal information**: anonymous device tokens only.
 
-> RavenNow is not affiliated with or endorsed by D2L Corporation or Carleton
+> Raven Scheduling is not affiliated with or endorsed by D2L Corporation or Carleton
 > University. "Brightspace" is a product of D2L Corporation.
 
 ---
@@ -89,7 +89,7 @@ cd frontend && npm run dev     # http://localhost:5173
 
 1. Open `chrome://extensions` (or `edge://extensions`) and enable **Developer mode**.
 2. Click **Load unpacked** and select the **`extension/`** folder.
-3. Click the RavenNow icon to open the side panel.
+3. Click the Raven Scheduling icon to open the side panel.
 4. Open <https://brightspace.carleton.ca/> once and sign in. The panel fills in;
    hit refresh to sync manually.
 5. In the extension **options** page, set the **API base URL** to your backend

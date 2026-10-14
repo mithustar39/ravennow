@@ -1,6 +1,6 @@
-# Deploying RavenNow
+# Deploying Raven Scheduling
 
-RavenNow is one Python service that serves both the website and the JSON API the
+Raven Scheduling is one Python service that serves both the website and the JSON API the
 extension talks to. The `Dockerfile` is multi-stage: it builds the React/shadcn
 frontend with Node, then copies the static output into the Python image.
 

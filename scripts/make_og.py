@@ -1,8 +1,7 @@
-"""Generate the Open Graph share image for the landing page.
+"""Generate the Open Graph share image (1200x630) with no third-party deps.
 
-Pure standard library (zlib + struct) so it runs anywhere Python does, matching
-``scripts/make_icons.py``. The wordmark is drawn from a tiny 5x7 bitmap font and
-scaled into blocks. Replace the output with real artwork before a big launch.
+Pure stdlib: builds a PNG from scratch using zlib and struct. Draws a blocky
+wordmark from a small bitmap font so the build has no font/asset dependency.
 """
 
 from __future__ import annotations
@@ -13,25 +12,43 @@ import zlib
 
 WIDTH = 1200
 HEIGHT = 630
-BRAND = (209, 19, 40)  # #d11328
-WHITE = (255, 255, 255)
 
-# 5 wide by 7 tall block letters, only the glyphs the wordmark needs.
-FONT = {
-    "R": ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
-    "A": ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
-    "V": ["10001", "10001", "10001", "10001", "10001", "01010", "00100"],
-    "E": ["11111", "10000", "10000", "11110", "10000", "10000", "11111"],
-    "N": ["10001", "11001", "10101", "10011", "10001", "10001", "10001"],
-    "O": ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
-    "W": ["10001", "10001", "10001", "10001", "10101", "10101", "01010"],
-}
+BRAND = (209, 19, 40)      # Carleton-ish red
+WHITE = (255, 255, 255)
 
 GLYPH_W = 5
 GLYPH_H = 7
 SPACING = 1  # in glyph cells
-SCALE = 24
-WORD = "RAVENNOW"
+
+# 5x7 bitmap font, uppercase A-Z only. Each glyph is 7 rows of 5 columns.
+FONT = {
+    "A": ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
+    "B": ["11110", "10001", "10001", "11110", "10001", "10001", "11110"],
+    "C": ["01110", "10001", "10000", "10000", "10000", "10001", "01110"],
+    "D": ["11110", "10001", "10001", "10001", "10001", "10001", "11110"],
+    "E": ["11111", "10000", "10000", "11110", "10000", "10000", "11111"],
+    "F": ["11111", "10000", "10000", "11110", "10000", "10000", "10000"],
+    "G": ["01110", "10001", "10000", "10111", "10001", "10001", "01110"],
+    "H": ["10001", "10001", "10001", "11111", "10001", "10001", "10001"],
+    "I": ["11111", "00100", "00100", "00100", "00100", "00100", "11111"],
+    "J": ["00111", "00010", "00010", "00010", "00010", "10010", "01100"],
+    "K": ["10001", "10010", "10100", "11000", "10100", "10010", "10001"],
+    "L": ["10000", "10000", "10000", "10000", "10000", "10000", "11111"],
+    "M": ["10001", "11011", "10101", "10101", "10001", "10001", "10001"],
+    "N": ["10001", "11001", "10101", "10011", "10001", "10001", "10001"],
+    "O": ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
+    "P": ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
+    "Q": ["01110", "10001", "10001", "10001", "10101", "10010", "01101"],
+    "R": ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
+    "S": ["01111", "10000", "10000", "01110", "00001", "00001", "11110"],
+    "T": ["11111", "00100", "00100", "00100", "00100", "00100", "00100"],
+    "U": ["10001", "10001", "10001", "10001", "10001", "10001", "01110"],
+    "V": ["10001", "10001", "10001", "10001", "10001", "01010", "00100"],
+    "W": ["10001", "10001", "10001", "10101", "10101", "10101", "01010"],
+    "X": ["10001", "10001", "01010", "00100", "01010", "10001", "10001"],
+    "Y": ["10001", "10001", "01010", "00100", "00100", "00100", "00100"],
+    "Z": ["11111", "00001", "00010", "00100", "01000", "10000", "11111"],
+}
 
 
 def _chunk(tag: bytes, data: bytes) -> bytes:
@@ -84,40 +101,60 @@ def _rect(
             pixels[index + 2] = b
 
 
-def _draw_word(pixels: bytearray, word: str, x0: int, y0: int) -> None:
-    cell = GLYPH_W * SCALE
-    advance = (GLYPH_W + SPACING) * SCALE
+def word_width(word: str, scale: int) -> int:
+    return len(word) * (GLYPH_W + SPACING) * scale - SPACING * scale
+
+
+def draw_word(
+    pixels: bytearray,
+    word: str,
+    x0: int,
+    y0: int,
+    scale: int,
+    color: tuple[int, int, int],
+) -> None:
+    advance = (GLYPH_W + SPACING) * scale
     for offset, letter in enumerate(word):
-        glyph = FONT[letter]
+        glyph = FONT.get(letter)
+        if not glyph:
+            continue
         gx = x0 + offset * advance
         for gy, line in enumerate(glyph):
             for gxx, bit in enumerate(line):
                 if bit == "1":
                     _rect(
                         pixels,
-                        gx + gxx * SCALE,
-                        y0 + gy * SCALE,
-                        gx + gxx * SCALE + SCALE,
-                        y0 + gy * SCALE + SCALE,
-                        WHITE,
+                        gx + gxx * scale,
+                        y0 + gy * scale,
+                        gx + gxx * scale + scale,
+                        y0 + gy * scale + scale,
+                        color,
                     )
-    del cell
+
+
+# Lines are (text, scale) drawn top to bottom, centered.
+LINES = [("RAVEN", 30), ("SCHEDULING", 16)]
+LINE_GAP = 34
+RULE_GAP = 44
+RULE_W = 360
+RULE_H = 8
 
 
 def main() -> None:
     pixels = bytearray(WIDTH * HEIGHT * 3)
     _fill(pixels, BRAND)
 
-    advance = (GLYPH_W + SPACING) * SCALE
-    total_w = len(WORD) * advance - SPACING * SCALE
-    start_x = (WIDTH - total_w) // 2
-    start_y = (HEIGHT - GLYPH_H * SCALE) // 2 - 40
-    _draw_word(pixels, WORD, start_x, start_y)
+    heights = [GLYPH_H * scale for _, scale in LINES]
+    total_h = sum(heights) + LINE_GAP * (len(LINES) - 1)
+    y = (HEIGHT - total_h) // 2
 
-    # A short white rule beneath the wordmark.
-    rule_w = 320
-    rule_y = start_y + GLYPH_H * SCALE + 70
-    _rect(pixels, (WIDTH - rule_w) // 2, rule_y, (WIDTH + rule_w) // 2, rule_y + 8, WHITE)
+    for (word, scale), height in zip(LINES, heights):
+        width = word_width(word, scale)
+        draw_word(pixels, word, (WIDTH - width) // 2, y, scale, WHITE)
+        y += height + LINE_GAP
+
+    rule_y = y + RULE_GAP
+    _rect(pixels, (WIDTH - RULE_W) // 2, rule_y, (WIDTH + RULE_W) // 2, rule_y + RULE_H, WHITE)
 
     root = pathlib.Path(__file__).resolve().parent.parent
     out = root / "frontend" / "public" / "og.png"

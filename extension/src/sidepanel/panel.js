@@ -1,4 +1,4 @@
-// RavenNow side panel. Talks only to the background service worker.
+// Raven Scheduling side panel. Talks only to the background service worker.
 (function () {
   "use strict";
 

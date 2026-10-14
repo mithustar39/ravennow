@@ -8,7 +8,7 @@ export function SiteFooter({ meta }: { meta: Meta }) {
         <div className="space-y-2">
           <Wordmark />
           <p className="max-w-xl text-sm text-muted-foreground">
-            RavenNow is an independent student project and is not affiliated
+            Raven Scheduling is an independent student project and is not affiliated
             with or endorsed by D2L Corporation or Carleton University.
             &ldquo;Brightspace&rdquo; is a product of D2L Corporation.
           </p>

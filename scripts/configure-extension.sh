@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Point the extension at your deployed RavenNow server.
+# Point the extension at your deployed Raven Scheduling server.
 #
 #   bash scripts/configure-extension.sh https://ravennow.example.com
 set -euo pipefail

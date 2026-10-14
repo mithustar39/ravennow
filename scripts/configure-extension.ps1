@@ -1,4 +1,4 @@
-# Point the extension at your deployed RavenNow server.
+# Point the extension at your deployed Raven Scheduling server.
 #
 #   .\scripts\configure-extension.ps1 https://ravennow.example.com
 #

@@ -1,4 +1,4 @@
-// RavenNow options page. Reads/writes config through the background worker.
+// Raven Scheduling options page. Reads/writes config through the background worker.
 (function () {
   "use strict";
 

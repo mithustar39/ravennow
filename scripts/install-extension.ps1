@@ -1,17 +1,17 @@
 <#
 .SYNOPSIS
-  Install the RavenNow browser extension without a browser store.
+  Install the Raven Scheduling browser extension without a browser store.
 
 .DESCRIPTION
-  Downloads the latest RavenNow extension zip from GitHub, unpacks it to a
-  stable folder under %LOCALAPPDATA%\RavenNow\extension, and opens the browser
+  Downloads the latest Raven Scheduling extension zip from GitHub, unpacks it to a
+  stable folder under %LOCALAPPDATA%\Raven Scheduling\extension, and opens the browser
   extensions page so you can click "Load unpacked".
 
 .PARAMETER ZipUrl
   Override the download URL. Defaults to the latest GitHub release asset.
 
 .PARAMETER Destination
-  Where to unpack. Defaults to %LOCALAPPDATA%\RavenNow\extension.
+  Where to unpack. Defaults to %LOCALAPPDATA%\Raven Scheduling\extension.
 
 .PARAMETER NoLaunch
   Do not open the folder or the browser extensions page.
@@ -30,10 +30,10 @@ $ErrorActionPreference = "Stop"
 
 if (-not $Destination) {
   $base = if ($env:LOCALAPPDATA) { $env:LOCALAPPDATA } else { Join-Path $HOME ".local\share" }
-  $Destination = Join-Path $base "RavenNow\extension"
+  $Destination = Join-Path $base "Raven Scheduling\extension"
 }
 
-Write-Host "RavenNow installer" -ForegroundColor Cyan
+Write-Host "Raven Scheduling installer" -ForegroundColor Cyan
 Write-Host "Downloading the extension..."
 
 $tmp = Join-Path ([System.IO.Path]::GetTempPath()) ("ravennow-" + [guid]::NewGuid().ToString("n") + ".zip")

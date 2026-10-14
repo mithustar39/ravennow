@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Start the RavenNow API locally (with reload). Builds the frontend if missing.
+# Start the Raven Scheduling API locally (with reload). Builds the frontend if missing.
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

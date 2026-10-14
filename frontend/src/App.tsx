@@ -28,7 +28,7 @@ const FEATURES = [
   {
     icon: ListChecks,
     title: "Every deadline in one list",
-    body: "RavenNow reads your courses on Brightspace and lists every assignment, quiz, lab and discussion in the side panel. No syllabus upload, no calendar import.",
+    body: "Raven Scheduling reads your courses on Brightspace and lists every assignment, quiz, lab and discussion in the side panel. No syllabus upload, no calendar import.",
   },
   {
     icon: RefreshCw,
@@ -43,7 +43,7 @@ const FEATURES = [
   {
     icon: ShieldCheck,
     title: "No account, no personal info",
-    body: "RavenNow never asks for your name, student number or Brightspace password. It only stores the deadlines it already shows you.",
+    body: "Raven Scheduling never asks for your name, student number or Brightspace password. It only stores the deadlines it already shows you.",
   },
 ];
 
@@ -54,7 +54,7 @@ const STEPS = [
   },
   {
     title: "Open Brightspace once",
-    body: "Sign in as usual. RavenNow reads your courses and builds the list in the side panel.",
+    body: "Sign in as usual. Raven Scheduling reads your courses and builds the list in the side panel.",
   },
   {
     title: "Check the side panel",
@@ -73,7 +73,7 @@ export default function App() {
   const installHref = config?.chrome_store_url || "/install";
   const installLabel = config?.chrome_store_url
     ? "Add to Chrome"
-    : "Install RavenNow";
+    : "Install Raven Scheduling";
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -94,7 +94,7 @@ export default function App() {
                 Every Brightspace deadline, kept up to date when profs move them.
               </h1>
               <p className="max-w-xl text-lg text-muted-foreground">
-                Stop rebuilding your calendar every term. RavenNow reads your
+                Stop rebuilding your calendar every term. Raven Scheduling reads your
                 deadlines from Brightspace and keeps them current in a browser
                 side panel.
               </p>
@@ -160,7 +160,7 @@ export default function App() {
         {/* Install */}
         <section id="install" className="container py-16 md:py-20">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-semibold tracking-tight">Get RavenNow</h2>
+            <h2 className="text-3xl font-semibold tracking-tight">Get Raven Scheduling</h2>
             <p className="mt-3 text-muted-foreground">
               Available now for Chrome and Edge. Firefox and Safari are planned.
             </p>
@@ -190,7 +190,7 @@ export default function App() {
                 <p className="text-sm text-muted-foreground">
                   {config?.chrome_store_url
                     ? "One click, with automatic updates."
-                    : "RavenNow is not in a store yet, so you load it from a zip once. The steps and a one-line script are on the install page."}
+                    : "Raven Scheduling is not in a store yet, so you load it from a zip once. The steps and a one-line script are on the install page."}
                 </p>
               </CardContent>
             </Card>

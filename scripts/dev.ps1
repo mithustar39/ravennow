@@ -1,4 +1,4 @@
-# Start the RavenNow API locally (with reload). Builds the frontend on first run.
+# Start the Raven Scheduling API locally (with reload). Builds the frontend on first run.
 #
 #   .\scripts\dev.ps1          # build frontend if missing, then run API
 #   .\scripts\dev.ps1 -Build   # force a frontend rebuild

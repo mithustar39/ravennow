@@ -48,7 +48,7 @@ def test_landing_and_legal_pages_served():
     with _client() as client:
         home = client.get("/")
         assert home.status_code == 200
-        assert "RavenNow" in home.text
+        assert "Raven Scheduling" in home.text
         assert client.get("/privacy").status_code == 200
         assert client.get("/app").status_code == 200
         assert client.get("/install").status_code == 200

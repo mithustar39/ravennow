@@ -1,4 +1,4 @@
-"""RavenNow FastAPI application.
+"""Raven Scheduling FastAPI application.
 
 Serves the marketing site + web dashboard and exposes the JSON API the browser
 extension talks to. Run with:

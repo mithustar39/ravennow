@@ -1,4 +1,4 @@
-"""Point the extension at a deployed RavenNow server.
+"""Point the extension at a deployed Raven Scheduling server.
 
 Rewrites the default API base in the extension source, refreshes the example URL
 on the options page, and makes sure the deployed origin sits in the manifest's
@@ -89,7 +89,7 @@ def main() -> None:
     patch_manifest(origin)
     touched.append("manifest.json")
 
-    print(f"RavenNow extension now points at {base}")
+    print(f"Raven Scheduling extension now points at {base}")
     for name in touched:
         print(f"  updated {name}")
     print("Rebuild the zip with scripts/build-extension-zip" + (" (ps1/sh)."))

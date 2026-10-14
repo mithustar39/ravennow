@@ -71,7 +71,7 @@ const STEPS: { title: string; body: ReactNode }[] = [
       <>
         Click <em>Load unpacked</em> and pick the unzipped folder, the one that
         holds{" "}
-        <code className="rounded bg-muted px-1">manifest.json</code>. The RavenNow
+        <code className="rounded bg-muted px-1">manifest.json</code>. The Raven Scheduling
         icon shows up in your toolbar.
       </>
     ),
@@ -102,10 +102,10 @@ export default function InstallPage() {
             No store needed
           </Badge>
           <h1 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">
-            Install RavenNow
+            Install Raven Scheduling
           </h1>
           <p className="mt-3 text-muted-foreground">
-            RavenNow is not in a browser store yet, so you install it yourself.
+            Raven Scheduling is not in a browser store yet, so you install it yourself.
             It takes about a minute, and it runs in Chrome and Edge on Windows,
             macOS and Linux.
           </p>
@@ -151,7 +151,7 @@ export default function InstallPage() {
             <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
             <p>
               Chrome may show a notice about developer mode extensions. That is
-              normal for anything not installed from a store. RavenNow stays
+              normal for anything not installed from a store. Raven Scheduling stays
               installed after you restart the browser, and it runs the same code
               you can read in the repository.
             </p>

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Install the RavenNow browser extension without a browser store.
+# Install the Raven Scheduling browser extension without a browser store.
 # Downloads the latest release zip and unpacks it to a stable folder.
 
 ZIP_URL="${RAVENNOW_EXTENSION_URL:-https://github.com/mithustar39/ravennow/releases/latest/download/ravennow-extension.zip}"
@@ -11,9 +11,9 @@ if [ "$(uname)" = "Darwin" ]; then
 else
   BASE="${XDG_DATA_HOME:-$HOME/.local/share}"
 fi
-DEST="${RAVENNOW_INSTALL_DIR:-$BASE/RavenNow/extension}"
+DEST="${RAVENNOW_INSTALL_DIR:-$BASE/Raven Scheduling/extension}"
 
-echo "RavenNow installer"
+echo "Raven Scheduling installer"
 echo "Downloading the extension..."
 
 tmp="$(mktemp -t ravennow-XXXXXX.zip)"

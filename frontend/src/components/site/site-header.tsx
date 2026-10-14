@@ -13,7 +13,7 @@ interface SiteHeaderProps {
 export function SiteHeader({
   meta,
   installHref,
-  installLabel = "Install RavenNow",
+  installLabel = "Install Raven Scheduling",
 }: SiteHeaderProps) {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">

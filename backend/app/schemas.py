@@ -1,4 +1,4 @@
-"""Pydantic request/response schemas for the RavenNow API."""
+"""Pydantic request/response schemas for the Raven Scheduling API."""
 
 from __future__ import annotations
 

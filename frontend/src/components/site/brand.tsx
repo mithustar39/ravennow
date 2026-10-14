@@ -9,7 +9,7 @@ export function BrandMark({ className }: { className?: string }) {
         className
       )}
     >
-      RN
+      RS
     </span>
   );
 }
@@ -18,7 +18,7 @@ export function Wordmark({ className }: { className?: string }) {
   return (
     <span className={cn("flex items-center gap-2 font-semibold tracking-tight", className)}>
       <BrandMark />
-      RavenNow
+      Raven Scheduling
     </span>
   );
 }

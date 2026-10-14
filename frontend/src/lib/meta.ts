@@ -14,7 +14,7 @@ export interface Meta {
 const REPO = "https://github.com/mithustar39/ravennow";
 
 export const META_FALLBACK: Meta = {
-  app_name: "RavenNow",
+  app_name: "Raven Scheduling",
   school: "carleton",
   environment: "development",
   support_email: "",
