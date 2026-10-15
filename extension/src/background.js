@@ -141,7 +141,8 @@ async function finishScrape(result) {
 }
 
 /** Ask every open supported tab to scrape, then post what it returns. */
-async function scrapeOpenTabs() {
+async function scrapeOpenTabs(opts = {}) {
+  const deep = !!opts.deep;
   const tabs = await chrome.tabs.query({});
   const targets = tabs.filter((t) => t.id != null && isSupported(t.url));
   const summary = [];
@@ -150,6 +151,7 @@ async function scrapeOpenTabs() {
     try {
       const resp = await chrome.tabs.sendMessage(tab.id, {
         type: "RAVENNOW_COLLECT",
+        deep,
       });
       if (resp && resp.ok && resp.payload) {
         await postScrape(resp.payload);
@@ -230,7 +232,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
           return sendResponse({ ok: true, result: await postScrape(msg.payload) });
 
         case "RAVENNOW_SYNC":
-          return sendResponse({ ok: true, ...(await scrapeOpenTabs()) });
+          return sendResponse({
+            ok: true,
+            ...(await scrapeOpenTabs({ deep: msg.deep !== false })),
+          });
 
         case "RAVENNOW_GET_STATE":
           return sendResponse({ ok: true, state: await getState() });
@@ -298,5 +303,5 @@ chrome.runtime.onStartup.addListener(() => {
 
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name !== SYNC_ALARM) return;
-  scrapeOpenTabs().catch((err) => setConfig({ last_error: String(err) }));
+  scrapeOpenTabs({ deep: true }).catch((err) => setConfig({ last_error: String(err) }));
 });

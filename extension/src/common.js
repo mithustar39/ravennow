@@ -57,13 +57,14 @@
 
     /**
      * Register the standard message listener used by both content scripts.
-     * The background asks for a fresh collect on its 30-minute alarm.
+     * The background asks for a fresh collect on its 30-minute alarm, and on a
+     * user-requested sync. A `deep` collect also crawls the course pages.
      */
     listen(collect) {
       chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         if (!msg || msg.type !== "RAVENNOW_COLLECT") return undefined;
         Promise.resolve()
-          .then(collect)
+          .then(() => collect({ deep: !!msg.deep }))
           .then((payload) => sendResponse({ ok: true, payload }))
           .catch((err) => sendResponse({ ok: false, error: String(err) }));
         return true; // keep the channel open for the async response

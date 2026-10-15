@@ -24,15 +24,26 @@ options*):
   Saving requests host permission for that origin.
 - **School**: Carleton (Brightspace).
 - **Test connection**: checks `GET /api/v1/health`.
-- **Run a scan on the active tab**: triggers a manual collect and reports how
-  many items were read (useful for debugging selectors).
+- **Run a scan on the active tab**: runs a full scan and reports how many items
+  were read (useful for debugging). A full scan crawls every course, so it can
+  take a minute.
 - **Access token**: shown so you can paste it into the web dashboard.
 
 ## How it works
 
 - `src/common.js`: shared helpers + the message listener used by the content script.
-- `src/content/brightspace.js`: reads deadlines from the D2L REST API
-  (`/d2l/api/...`) using your existing Brightspace session, with a DOM fallback.
+- `src/content/brightspace.js`: the collector. It has two layers:
+  - **API**: reads deadlines from the D2L REST API (`/d2l/api/...`) using your
+    existing Brightspace session. Covers dropbox, quizzes, calendar, and Content
+    topics that have a structured due date.
+  - **Text scan**: many instructors only type due dates into a course outline, a
+    content page, or an announcement. The scan reads those pages and pulls out
+    any line that names a deadline or assessment and also contains a date. Dates
+    without a year are inferred from today.
+  - A **shallow** pass reads the API plus the page you are on. A **deep** pass
+    (manual sync and the 30-minute alarm) also crawls each course's home page,
+    announcements, and Content pages. The backend merges instead of replacing,
+    so a shallow pass never erases deep results.
 - `src/background.js`: registers an anonymous account, posts scrapes to the
   backend, polls every 30 minutes, and raises a notification when a due date
   changes. It is the only component that makes network requests for the UI.
@@ -41,9 +52,9 @@ options*):
 
 ## Notes
 
-- Brightspace API versions/paths are listed in `src/content/brightspace.js`
-  (`LE_VERSIONS` and the path arrays). Add new paths there if Carleton changes
-  its routes.
+- API versions are discovered at runtime from `/d2l/api/versions/`; fallbacks
+  live in `src/content/brightspace.js`. Deep-crawl bounds (`DEEP_MAX_*`) and the
+  deadline keyword/date patterns are in the same file.
 - Icons in `icons/` are generated placeholders. Replace them with real artwork
   (run `python scripts/make_icons.py` to regenerate).
 - Testing tip: open DevTools → Console and run `RN.DEBUG = true` in the content

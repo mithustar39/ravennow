@@ -119,12 +119,16 @@
     }
     const tab = tabs.find((t) => t.active) || tabs[0];
 
-    $("diag").textContent = "Scanning " + tab.url + " …";
+    $("diag").textContent =
+      "Scanning " + tab.url + " …\nThis crawls every course's home, announcements, and Content pages, so it can take a minute.";
     setStatus("");
     try {
       let resp;
       try {
-        resp = await chrome.tabs.sendMessage(tab.id, { type: "RAVENNOW_COLLECT" });
+        resp = await chrome.tabs.sendMessage(tab.id, {
+          type: "RAVENNOW_COLLECT",
+          deep: true,
+        });
       } catch (err) {
         // The page was opened before the extension loaded, so no content script.
         $("diag").textContent =
@@ -157,6 +161,16 @@
     ];
     if (d.pageCourse) {
       lines.push("page course: " + d.pageCourse + " (" + (d.textItems || 0) + " from page text)");
+    }
+    if (d.deep) {
+      lines.push(
+        "deep scan: " + (d.deep.pages || 0) + " pages" +
+          " (home=" + (d.deep.home || 0) +
+          " news=" + (d.deep.news || 0) +
+          " content=" + (d.deep.content || 0) + ")"
+      );
+    } else if (d.deepScan) {
+      lines.push("deep scan: requested but no stats");
     }
     if (d.usedDom) lines.push("(used DOM fallback, " + (d.domItems || 0) + " items)");
     if (result) {

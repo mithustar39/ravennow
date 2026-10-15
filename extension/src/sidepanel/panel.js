@@ -226,7 +226,7 @@
   async function sync() {
     const button = $("sync");
     button.classList.add("spin");
-    setStatus("Syncing…");
+    setStatus("Syncing (this can take a minute)…");
     try {
       const result = await send("RAVENNOW_SYNC");
       if (result.synced === 0) {
