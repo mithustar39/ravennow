@@ -155,6 +155,9 @@
       "courses: " + (d.courses ?? "?"),
       "items read: " + (d.items ?? "?"),
     ];
+    if (d.pageCourse) {
+      lines.push("page course: " + d.pageCourse + " (" + (d.textItems || 0) + " from page text)");
+    }
     if (d.usedDom) lines.push("(used DOM fallback, " + (d.domItems || 0) + " items)");
     if (result) {
       lines.push(
